@@ -1,0 +1,25 @@
+.Search_container
+{
+    height: vh;
+    width:30%;
+    background-color: rgb(45, 45, 75);
+}
+.input
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    padding: 50px;
+    
+}
+.input input
+{
+    width: 450px;
+    height: 30px;
+}
+.input button
+{
+    width: 70px;
+    height: 30px;
+}
