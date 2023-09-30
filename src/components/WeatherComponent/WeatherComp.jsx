@@ -13,14 +13,14 @@ import {
 const Weather=()=>
 {
     const [temp,settemp]= useState(0);
+    const [resp,setresp]= useState(0);
     const [Country,setCountry]= useState("")
     const [today,setToday]=useState([]);
     const [forecast_of_today,setForecatsOfToday]=useState([])
     const [currentTime,setCurentTime]=useState(0);
     const cur= new Date();
-    const fecth_api= async ()=>
+    const Fecth_logic=(response)=>
     {
-        const response = await axios.get("http://api.weatherapi.com/v1/forecast.json?key=6e600fe077094ef9b0d80232232709 &q=London&aqi=no&days=1");
         const {current,location,forecast}=response.data;
         setCountry(location.name+","+location.country);
         settemp(current.temp_c);
@@ -29,12 +29,19 @@ const Weather=()=>
         const {hour}=today[0];
         setForecatsOfToday(hour.slice(currentTime-1))
     }
+    const Fecth_api= async ()=>
+    {
+        const response = await axios.get("http://api.weatherapi.com/v1/forecast.json?key=6e600fe077094ef9b0d80232232709 &q=London&aqi=no&days=1");
+        setresp(response);
+    }
+        
     useEffect(()=>
     {
       
       setCurentTime(cur.getHours());
-      fecth_api();
-    },[currentTime])
+      Fecth_api();
+      Fecth_logic(resp)
+    },[cur,resp])
     return(
         <div className='Weather_show'>
         <section className="vh-100" style={{ backgroundColor: "#C1CFEA" }}>

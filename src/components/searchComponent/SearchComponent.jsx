@@ -1,5 +1,5 @@
 import '../searchComponent/SearchCompStyle.css'
-const Search=()=>
+const Search=(countries)=>
 {
     return(
         <div className='Search_container'>
@@ -8,7 +8,18 @@ const Search=()=>
                 <button type='submit'>Search</button>
             </div>
             <div>
-                Filtered City
+                <div>{countries}</div>
+                {/* {
+                    
+                    countries.map((country,idx)=>
+                    {
+                        return(
+                            <p key={idx}>
+                                country
+                            </p>
+                        )
+                    })
+                } */}
             </div>
         </div>
     )
