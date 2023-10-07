@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import '../src/App.css'
 import Weather from './components/WeatherComponent/WeatherComp';
 import Search from './components/searchComponent/SearchComponent';
 function App() {
-  const [weather_country,setweather_country]= useState("")
+  const [weather_country,setweather_country]= useState("Ethiopia")
+  const [response,setresponse]=useState(null)
   const countries=[
     "Afghanistan",
     "Albania",
@@ -258,12 +259,27 @@ function App() {
   const handelClick=(e)=>
   {
       setweather_country(e.target.value);
-      console.log(weather_country)
   }
+  const api_key="6e600fe077094ef9b0d80232232709";
+  const base_url=`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${weather_country}&aqi=no&alerts=no`;
+    useEffect(()=>
+    {
+      async function fetchData() {
+        try {
+          const response = await fetch(base_url);
+          const data = await response.json();
+          setresponse(data);
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
+      }
+      
+      fetchData();
+    },[weather_country])
   return (
     <div className="App">
       <Search countries={countries} handelClick={handelClick}/>
-      {/* <Weather/> */}
+      <Weather response={response} country={weather_country}/>
     </div>
   );
 }

@@ -1,6 +1,5 @@
+import { useState } from 'react';
 import '../WeatherComponent/WeatherCompStyle.css'
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import {
     MDBCard,
     MDBCardBody,
@@ -8,40 +7,16 @@ import {
     MDBContainer,
     MDBIcon,
     MDBRow,
-    MDBTypography,
   } from "mdb-react-ui-kit";
-const Weather=()=>
+const Weather=({response,country})=>
 {
-    const [temp,settemp]= useState(0);
-    const [resp,setresp]= useState(0);
-    const [Country,setCountry]= useState("")
-    const [today,setToday]=useState([]);
-    const [forecast_of_today,setForecatsOfToday]=useState([])
-    const [currentTime,setCurentTime]=useState(0);
-    const cur= new Date();
-    const Fecth_logic=(response)=>
+    const [current_temp,setcurrentTemp]=useState(0);
+    if(response)
     {
-        const {current,location,forecast}=response.data;
-        setCountry(location.name+","+location.country);
-        settemp(current.temp_c);
-        const {forecastday}=forecast;
-        setToday(forecastday);
-        const {hour}=today[0];
-        setForecatsOfToday(hour.slice(currentTime-1))
+          const {current,forecast}=response;
+          setcurrentTemp(current.temp_c);
+          console.log(current,forecast);
     }
-    const Fecth_api= async ()=>
-    {
-        const response = await axios.get("http://api.weatherapi.com/v1/forecast.json?key=6e600fe077094ef9b0d80232232709 &q=London&aqi=no&days=1");
-        setresp(response);
-    }
-        
-    useEffect(()=>
-    {
-      
-      setCurentTime(cur.getHours());
-      Fecth_api();
-      Fecth_logic(resp)
-    },[cur,resp])
     return(
         <div className='Weather_show'>
         <section className="vh-100" style={{ backgroundColor: "#C1CFEA" }}>
@@ -59,9 +34,9 @@ const Weather=()=>
                 <div className="d-flex justify-content-between pb-2">
                   <div>
                     <h2 className="display-2">
-                      <strong>{temp}°C</strong>
+                      <strong>{current_temp}°C</strong>
                     </h2>
-                    <p className="text-muted mb-0">{Country}</p>
+                    <p className="text-muted mb-0">{country}</p>
                   </div>
                   <div>
                     <img
@@ -78,7 +53,7 @@ const Weather=()=>
                 <div className="d-flex justify-content-around text-center pb-3 pt-2">
                   <div className="flex-column">
                     <p className="small">
-                      <strong>{forecast_of_today[0].temp_c}°C</strong>
+                      <strong>°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -88,12 +63,12 @@ const Weather=()=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>{currentTime}:00</strong>
+                      <strong>:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>{forecast_of_today[1].temp_c}°C</strong>
+                      <strong>°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -103,12 +78,12 @@ const Weather=()=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>{currentTime+1}:00</strong>
+                      <strong>:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>{forecast_of_today[2].temp_c}°C</strong>
+                      <strong>°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -118,12 +93,12 @@ const Weather=()=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>{currentTime+2}:00</strong>
+                      <strong>:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>{forecast_of_today[3].temp_c}°C</strong>
+                      <strong>°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -133,12 +108,12 @@ const Weather=()=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>{currentTime+3}:00</strong>
+                      <strong>:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>{forecast_of_today[4].temp_c}°C</strong>
+                      <strong>°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -148,7 +123,7 @@ const Weather=()=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>{currentTime+4}:00</strong>
+                      <strong>:00</strong>
                     </p>
                   </div>
                 </div>

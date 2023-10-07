@@ -9,8 +9,7 @@ const Search=({countries,handelClick})=>
             </div>
             <div className='list_countries'>
                 {
-                    console.log(countries)
-                countries.countries.map((country,idx)=>
+                countries.map((country,idx)=>
                 {
                     return(
                         <p key={idx}>
