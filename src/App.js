@@ -261,13 +261,13 @@ function App() {
       setweather_country(e.target.value);
   }
   const api_key="6e600fe077094ef9b0d80232232709";
-  const base_url=`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${weather_country}&aqi=no&alerts=no`;
+  const base_url=`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&q=${weather_country}&days=5&aqi=no&alerts=no`;
     useEffect(()=>
     {
-      async function fetchData() {
+      const fetchData=async ()=>{
         try {
-          const response = await fetch(base_url);
-          const data = await response.json();
+          const resp = await fetch(base_url);
+          const data = await resp.json();
           setresponse(data);
         } catch (error) {
           console.log('Error fetching data:', error);

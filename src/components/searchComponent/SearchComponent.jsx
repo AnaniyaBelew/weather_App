@@ -1,15 +1,17 @@
+import { useState } from 'react'
 import '../searchComponent/SearchCompStyle.css'
 const Search=({countries,handelClick})=>
 {
+    const [search_string,setSearchString]=useState('');
+    const filterd_country= countries.filter((country)=>country.toLowerCase().includes(search_string))
     return(
         <div className='Search_container'>
             <div className='input'>
-                <input type='search' placeholder='Search for city'></input>
-                <button type='submit'>Search</button>
+                <input type='search' placeholder='Search for city' onChange={(e)=>setSearchString(e.target.value.toLowerCase())}></input>
             </div>
             <div className='list_countries'>
                 {
-                countries.map((country,idx)=>
+                filterd_country.map((country,idx)=>
                 {
                     return(
                         <p key={idx}>

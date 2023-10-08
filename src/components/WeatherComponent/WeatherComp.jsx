@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../WeatherComponent/WeatherCompStyle.css'
 import {
     MDBCard,
@@ -10,15 +10,28 @@ import {
   } from "mdb-react-ui-kit";
 const Weather=({response,country})=>
 {
+    const weekDays=["SUN","MON","TUE","WED","THU","FRI","SAT"];
     const [current_temp,setcurrentTemp]=useState(0);
-    if(response)
+    const [time,setTime]=useState(null);
+    const [today,setToday]=useState(null);
+    const [five_days,setfiveDays]=useState(null);
+    const clock= new Date();
+
+   useEffect(()=>
+   {
+    setTime(clock.getHours());
+    if(response!==null)
     {
-          const {current,forecast}=response;
-          setcurrentTemp(current.temp_c);
-          console.log(current,forecast);
-    }
+      const {current,forecast}=response;
+      const {forecastday}=forecast;
+      setfiveDays(forecastday);
+      const {hour}=forecastday[0];
+      setToday(hour.slice(time));
+      setcurrentTemp(current.temp_c);
+    }},[response,country])
     return(
         <div className='Weather_show'>
+          {response &&
         <section className="vh-100" style={{ backgroundColor: "#C1CFEA" }}>
       <MDBContainer className="h-100">
         <MDBRow
@@ -53,7 +66,7 @@ const Weather=({response,country})=>
                 <div className="d-flex justify-content-around text-center pb-3 pt-2">
                   <div className="flex-column">
                     <p className="small">
-                      <strong>°C</strong>
+                      <strong>{today&&today[0].temp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -63,12 +76,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>:00</strong>
+                      <strong>{time}:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>°C</strong>
+                      <strong>{today&&today[1].temp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -78,12 +91,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>:00</strong>
+                      <strong>{time+1}:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>°C</strong>
+                      <strong>{today&&today[2].temp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -93,12 +106,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>:00</strong>
+                      <strong>{time+2}:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>°C</strong>
+                      <strong>{today&&today[3].temp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -108,12 +121,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>:00</strong>
+                      <strong>{time+3}:00</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>°C</strong>
+                      <strong>{today&&today[4].temp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -123,7 +136,7 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>:00</strong>
+                      <strong>{time+4}:00</strong>
                     </p>
                   </div>
                 </div>
@@ -135,7 +148,7 @@ const Weather=({response,country})=>
                 <div className="d-flex justify-content-around text-center pb-3 pt-2">
                   <div className="flex-column">
                     <p className="small">
-                      <strong>21°C</strong>
+                      <strong>{five_days&&five_days[0].day.maxtemp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -145,12 +158,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>Mon</strong>
+                      <strong>{weekDays[clock.getDay()]}</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>20°C</strong>
+                      <strong>{five_days&&five_days[1].day.maxtemp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -160,12 +173,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>Tue</strong>
+                      <strong>{weekDays[clock.getDay()+1]}</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>16°C</strong>
+                      <strong>{five_days&&five_days[2].day.maxtemp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -175,12 +188,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>Wed</strong>
+                      <strong>{weekDays[clock.getDay()+2]}</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>17°C</strong>
+                      <strong>{five_days&&five_days[3].day.maxtemp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -190,12 +203,12 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>Thu</strong>
+                      <strong>{weekDays[clock.getDay()+3]}</strong>
                     </p>
                   </div>
                   <div className="flex-column">
                     <p className="small">
-                      <strong>18°C</strong>
+                      <strong>{five_days&&five_days[4].day.maxtemp_c}°C</strong>
                     </p>
                     <MDBIcon
                       fas
@@ -205,7 +218,7 @@ const Weather=({response,country})=>
                       style={{ color: "#ddd" }}
                     />
                     <p className="mb-0">
-                      <strong>Fri</strong>
+                      <strong>{weekDays[clock.getDay()+4]}</strong>
                     </p>
                   </div>
                 </div>
@@ -215,6 +228,7 @@ const Weather=({response,country})=>
         </MDBRow>
       </MDBContainer>
     </section>
+    }
     </div>
     )
 }
